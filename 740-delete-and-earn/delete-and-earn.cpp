@@ -7,11 +7,14 @@ public:
             arr[it]+=it;
         }
         vector<int>dp(mx+1,0);
-        dp[1]=arr[1];
-        dp[0]=arr[0];
+        
+        int prev=arr[0];
+        int curr=arr[1];
         for(int i=2;i<=mx;i++){
-            dp[i]=max(dp[i-1],arr[i]+dp[i-2]);
+            dp[i]=max(curr,arr[i]+prev);
+            prev=curr;
+            curr=dp[i];
         }
-        return dp[mx];
+        return curr;
     }
 };
