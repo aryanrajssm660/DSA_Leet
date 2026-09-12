@@ -1,27 +1,23 @@
 class Solution {
 public:
-    int solve(int index, int Isbuy, vector<int>& prices,
-              vector<vector<int>>& dp) {
-        if (index >= (int)prices.size()) {
-            return 0;
-        }
-        if (dp[index][Isbuy] != -1) {
-            return dp[index][Isbuy];
-        }
-        // if previously some stok buy
-        int take, notake;
-        if (Isbuy) {
-            take = prices[index] + solve(index + 1, 0, prices, dp);
-            notake = solve(index + 1, 1, prices, dp);
-        } else {
-            take = -prices[index] + solve(index + 1, 1, prices, dp);
-            notake = solve(index + 1, 0, prices, dp);
-        }
-        return dp[index][Isbuy] = max(take, notake);
-    }
     int maxProfit(vector<int>& prices) {
-        int n = prices.size();
-        vector<vector<int>> dp(n, vector<int>(2, -1));
-        return solve(0, 0, prices, dp);
+        int n=prices.size();
+        vector<int> ahead(2, 0);
+        vector<int> curr(2, 0);
+        for (int i = n - 1; i >= 0; i--) {
+            
+            for (int j = 0; j < 2; j++) {
+                int profit;
+                if (j) {
+                    profit = max(-prices[i] + ahead[0], ahead[1]);
+
+                } else {
+                    profit = max(prices[i] + ahead[1], ahead[0]);
+                }
+                curr[j] = profit;
+            }
+            ahead = curr;
+        }
+        return ahead[1];
     }
 };
