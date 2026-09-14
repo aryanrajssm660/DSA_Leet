@@ -1,27 +1,31 @@
 class Solution {
 public:
-    int find(int index, int CanSell, int k, vector<int>& prices,
-             vector<vector<vector<int>>>& dp) {
-        if (index == prices.size() || k == 0) {
-            return 0;
-        }
-        if (dp[index][CanSell][k] != -1) {
-            return dp[index][CanSell][k];
-        }
-        int buy = 0, sell = 0, hold;
-        if (CanSell) {
-             sell = prices[index] + find(index + 1, 0, k - 1, prices, dp);
-
-        } else {
-            buy = -prices[index] + find(index + 1, 1, k, prices, dp);
-        }
-        hold = find(index + 1, CanSell, k, prices, dp);
-        return dp[index][CanSell][k] = max({buy, sell, hold});
-    }
     int maxProfit(int k, vector<int>& prices) {
         int n = prices.size();
         vector<vector<vector<int>>> dp(
-            n, vector<vector<int>>(2, vector<int>(k + 1, -1)));
-        return find(0, 0, k, prices, dp);
+            n + 1, vector<vector<int>>(2, vector<int>(k + 1, 0)));
+        for (int index = n - 1; index >= 0; index--) {
+            for (int j = 0; j < 2; j++) {
+                int skip, take;
+                for (int cap = 1; cap <= k; cap++) {
+                    if (j) {
+                        // Sell the stock
+                        take = prices[index] + dp[index + 1][0][cap - 1];
+
+                        // Hold the stock
+                        skip = dp[index + 1][1][cap];
+                    } else {
+                        // Buy the stock
+                        take = -prices[index] + dp[index + 1][1][cap];
+
+                        // Do not buy
+                        skip = dp[index + 1][0][cap];
+                    }
+
+                    dp[index][j][cap] = max(take, skip);
+                }
+            }
+        }
+        return dp[0][0][k];
     }
 };
