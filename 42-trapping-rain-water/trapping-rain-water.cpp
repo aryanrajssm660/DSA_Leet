@@ -2,25 +2,37 @@ class Solution {
 public:
     int trap(vector<int>& height) {
         int n=height.size();
-        vector<int>left(n,0);
-        vector<int>right(n,0);
-        left[0]=height[0];
-        right[n-1]=height[n-1];
-        for(int i=1;i<n;i++){
-            left[i]=max(height[i],left[i-1]);
-            right[n-i-1]=max(height[n-i-1],right[n-i]);
-            cout<<right[n-i-1]<<" ";
-        }
-        int ans=0;
-        for(int i=0;i<n;i++){
-            // cout<<left[i]<<" "<<right[i]<<" "<<height[i]<<" "<<i<<"     ";
+        // stack<int>st;
 
-            if(left[i]>height[i]&&right[i]>height[i]){
-                ans=ans+min(left[i],right[i])-height[i];
-                // cout<<ans<<"  ";
+        // for(auto it:height){
+        //     left=max(left,it);
+        //     if(it<left)
+        // }
+        int l=0;
+        int r=n-1;
+        int l_max=height[0];
+        int r_max=height[r];
+        int ans=0;
+        while(l<r){
+            if(height[l]<height[r]){
+                if(l_max<height[l]){
+                    l_max=height[l];
+                }
+                else{
+                    ans+=l_max-height[l];
+                }
+                l++;
+            }
+            else{
+                if(r_max<height[r]){
+                    r_max=height[r];
+                }
+                else{
+                    ans+=r_max-height[r];
+                }
+                r--;
             }
         }
         return ans;
-
     }
 };
