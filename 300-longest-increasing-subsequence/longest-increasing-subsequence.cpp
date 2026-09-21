@@ -1,18 +1,17 @@
 class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) {
-        int n=nums.size();
-        int ans=0;
-        vector<int>dp(n,1);
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < i; j++) {
-                if (nums[j] < nums[i]) {
-                    dp[i] = max(dp[i], 1 + dp[j]);
-                }
+        vector<int>temp;
+        temp.push_back(nums[0]);
+        for(auto it:nums){
+            if(it>temp.back()){
+                temp.push_back(it);
             }
-
-            ans = max(ans, dp[i]);
+            else{
+                int ind=lower_bound(temp.begin(),temp.end(),it)-temp.begin();
+                temp[ind]=it;
+            }
         }
-        return ans;
+        return temp.size();
     }
 };
