@@ -2,7 +2,7 @@ class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) {
         int n=nums.size();
-        vector<vector<int>>dp(n+1,vector<int>(n+1,0));
+        // vector<vector<int>>dp(n+1,vector<int>(n+1,0));
         vector<int>ahead(n+1,0);
         vector<int>curr(n+1,0);
         for(int i=n-1;i>=0;i--){
