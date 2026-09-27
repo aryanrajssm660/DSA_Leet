@@ -1,27 +1,40 @@
 class Solution {
 public:
     string reverseParentheses(string s) {
-        string st;
+        int n = s.size();
 
-        for (char ch : s) {
-            if (ch == ')') {
-                string temp;
+        vector<int> pair(n);
+        stack<int> st;
 
-                while (st.back() != '(') {
-                    temp += st.back();
-                    st.pop_back();
-                }
-
-                st.pop_back();  // remove '('
-
-                for (char c : temp)
-                    st.push_back(c);
+        // Find matching parentheses
+        for (int i = 0; i < n; i++) {
+            if (s[i] == '(') {
+                st.push(i);
             }
-            else {
-                st.push_back(ch);
+            else if (s[i] == ')') {
+                int j = st.top();
+                st.pop();
+
+                pair[i] = j;
+                pair[j] = i;
             }
         }
 
-        return st;
+        string ans;
+
+        int dir = 1;
+
+        for (int i = 0; i < n; i += dir) {
+
+            if (s[i] == '(' || s[i] == ')') {
+                i = pair[i];
+                dir = -dir;
+            }
+            else {
+                ans += s[i];
+            }
+        }
+
+        return ans;
     }
 };
