@@ -1,32 +1,34 @@
 class Solution {
 public:
-    const int modulo = 1e9 + 7;
-
     int maxSum(vector<int>& nums, int k) {
-        vector<int> arr(32, 0);
-        for (auto it : nums) {
-            for (int bit = 0; bit < 32; bit++) {
-                if (it & (1 << bit)) {
-                    arr[bit]++;
+        const int MOD = 1e9 + 7;
+        vector<int> bits(32, 0);
+
+        // Count set bits at each position
+        for (int num : nums) {
+            for (int b = 0; b < 32; b++) {
+                if (num & (1LL << b)) {
+                    bits[b]++;
                 }
             }
         }
-        vector<long long> ans(k);
-        long long answer = 0;
-        for (int i = 0; i < k; i++) {
-            int number = 0;
-            for (int j = 0; j < 32; j++) {
-                if (arr[j]) {
-                    arr[j]--;
-                    number += 1 << j;
+
+        long long ans = 0;
+
+        // Greedily construct the maximum k numbers
+        while (k--) {
+            long long num = 0;
+
+            for (int b = 0; b < 32; b++) {
+                if (bits[b] > 0) {
+                    num |= (1LL << b);
+                    bits[b]--;
                 }
             }
-            ans[i] = number;
+
+            ans = (ans + num * num % MOD) % MOD;
         }
-        for (auto it : ans) {
-            long long temp = (((it * it) % modulo) + answer) % modulo;
-            answer=temp;
-        }
-        return answer;
+
+        return ans;
     }
 };
