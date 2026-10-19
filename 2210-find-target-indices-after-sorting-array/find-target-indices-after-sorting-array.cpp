@@ -15,8 +15,8 @@ public:
         if(target_count==0){
             return ans;
         }
-        for(int i=0;i<target_count;i++){
-            ans.push_back(i+smaller);
+        for(int i=smaller;i<smaller+target_count;i++){
+            ans.push_back(i);
         }
         return ans; 
        
