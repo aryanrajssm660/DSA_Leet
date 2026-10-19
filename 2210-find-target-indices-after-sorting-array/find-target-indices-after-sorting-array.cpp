@@ -1,18 +1,24 @@
 class Solution {
 public:
-    vector<int> targetIndices(vector<int>& nums, int target) {   vector<int>arr(nums.begin(),nums.end());
-    vector<int>ans;
-        sort(arr.begin(),arr.end());
-        int low=lower_bound(arr.begin(),arr.end(),target)-arr.begin();
-        int high=upper_bound(arr.begin(),arr.end(),target)
-        -arr.begin();
-        if(low-high==0){
+    vector<int> targetIndices(vector<int>& nums, int target) {
+        int count = 0;
+        int small = 0;
+        for (int it : nums) {
+            if(it<target){
+                small++;
+            }
+            else if(it==target){
+                count++;
+            }
+        }
+         vector<int>ans;
+        if(count==0){
             return ans;
         }
-        for(int i=low;i<high;i++){
-            ans.push_back(i);
+        for(int i=0;i<count;i++){
+            ans.push_back(i+small);
         }
-        return ans;
-        
+        return ans; 
+       
     }
 };
