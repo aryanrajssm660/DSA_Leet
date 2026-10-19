@@ -1,27 +1,38 @@
 class Solution {
 public:
     int singleNonDuplicate(vector<int>& nums) {
-     int n = nums.size();
-    int lo = 0, hi = n - 1;
-    
-    while (lo < hi) {
-        int mid = lo + (hi - lo) / 2;
-        
-        // Ensure mid is even
-        if (mid % 2 == 1)
-            mid--;
-        
-        // If repeating element is at even position, 
-        // then single element must be on the right side
-        if (nums[mid] == nums[mid + 1]) {
-            lo = mid + 2;
-          
-        // Else single element must be on the left  
-        } else {
-            hi = mid;
+        int n=nums.size();
+        if(n==1)return nums[0];
+        if(nums[0]!=nums[1])return nums[0];
+        if(nums[n-1]!=nums[n-2])return nums[n-1];
+        int low=1;
+        int high=n-2;
+        while(low<=high){
+            int mid=low+(high-low)/2;
+            if(mid&1){
+                if(nums[mid]==nums[mid+1]){
+                    high=mid-1;
+                }
+                else if(nums[mid]==nums[mid-1]){
+                    low=mid+1;
+                }
+                else{
+                    return nums[mid];
+                }
+            }
+            else{
+                if(nums[mid]==nums[mid+1]){
+                    low=mid+1;
+                    
+                }
+                else if(nums[mid]==nums[mid-1]){
+                    high=mid-1;
+                }
+                else{
+                    return nums[mid];
+                }
+            }
         }
-    }
-    
-    return nums[lo];
+        return -1;
     }
 };
