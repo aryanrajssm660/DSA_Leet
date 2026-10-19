@@ -1,22 +1,22 @@
 class Solution {
 public:
     vector<int> targetIndices(vector<int>& nums, int target) {
-        int count = 0;
-        int small = 0;
+        int target_count = 0;
+        int smaller = 0;
         for (int it : nums) {
             if(it<target){
-                small++;
+                smaller++;
             }
             else if(it==target){
-                count++;
+                target_count++;
             }
         }
          vector<int>ans;
-        if(count==0){
+        if(target_count==0){
             return ans;
         }
-        for(int i=0;i<count;i++){
-            ans.push_back(i+small);
+        for(int i=0;i<target_count;i++){
+            ans.push_back(i+smaller);
         }
         return ans; 
        
